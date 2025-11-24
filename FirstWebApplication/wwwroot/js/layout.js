@@ -8,6 +8,22 @@ function toggleMobileMenu() {
 
 // Close mobile menu when clicking on links or outside
 document.addEventListener('DOMContentLoaded', function () {
+    // Attach event listeners to buttons (CSP-compliant)
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+    }
+
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    }
+
+    const mobileDarkModeToggle = document.getElementById('mobile-dark-mode-toggle');
+    if (mobileDarkModeToggle) {
+        mobileDarkModeToggle.addEventListener('click', toggleDarkMode);
+    }
+
     // Close mobile menu when clicking outside
     document.addEventListener('click', function (event) {
         const menu = document.getElementById('mobile-menu');
