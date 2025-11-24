@@ -38,7 +38,11 @@ namespace NRLWebApp.Tests.Controllers
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = new DefaultHttpContext() { User = user }
-                }
+                },
+
+                TempData = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(
+                    new DefaultHttpContext(),
+                    Mock.Of<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider>())
             };
 
             return controller;
@@ -53,10 +57,11 @@ namespace NRLWebApp.Tests.Controllers
 
             // Mock RoleService til å kun returnere ÉN admin (Siste Admin)
             var mockRoleService = new Mock<UserRoleService>(
-                new Mock<RoleManager<IdentityRole>>().Object,
                 mockUserManager.Object,
-                new Mock<IUserStore<ApplicationUser>>().Object
-            );
+                new Mock<RoleManager<IdentityRole>>(
+                    new Mock<IRoleStore<IdentityRole>>().Object,
+                    null!, null!, null!, null!).Object);
+
             mockRoleService.Setup(s => s.GetUsersInRoleAsync("Admin")).ReturnsAsync(new List<ApplicationUser> { userToDelete });
 
             // Simuler at brukeren som slettes er Admin

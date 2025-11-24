@@ -68,7 +68,7 @@ namespace NRLWebApp.Tests.Controllers
             context.ObstacleStatuses.Add(approvedStatus);
 
             obstacle.CurrentStatusId = approvedStatus.Id;
-            context.Obstacles.Update(obstacle);
+            
             await context.SaveChangesAsync();
 
             var controller = CreateController(context, userId);

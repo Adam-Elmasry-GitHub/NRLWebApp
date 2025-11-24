@@ -33,7 +33,11 @@ namespace NRLWebApp.Tests.Controllers
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = new DefaultHttpContext() { User = user }
-                }
+                },
+
+                TempData = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(
+                    new DefaultHttpContext(),
+                    Mock.Of<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider>())
             };
 
             return controller;
