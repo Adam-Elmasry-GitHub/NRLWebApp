@@ -16,7 +16,7 @@
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    <style>
+    <style @Html.Raw(Html.NonceAttribute())>
         /* Remove all margins and make the page full height */
         * {
             margin: 0;
@@ -228,7 +228,7 @@
 
                     <!-- Remember Me checkbox -->
                     <label class="remember-me">
-                        <input type="checkbox" name="RememberMe" />
+                        <input type="checkbox" name="RememberMe" value="true" />
                         <span>Remember me</span>
                     </label>
 
@@ -298,7 +298,7 @@
     <!-- Leaflet JavaScript for the map -->
     <script src="~/lib/leaflet/leaflet.js"></script>
 
-    <script>
+    <script @Html.Raw(Html.NonceAttribute())>
         // Initialize the map when the page loads
         document.addEventListener('DOMContentLoaded', function () {
 
