@@ -50,11 +50,11 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
-            backdrop-filter: blur(3px); /* Blur effect */
-            z-index: 1002; /* Above task tracker (1001) so modal is clickable */
+            z-index: 2; /* Above the map, below task tracker */
             display: flex;
             justify-content: center;
             align-items: center;
+            pointer-events: none; /* Allow clicks through to task tracker */
         }
 
         /* The auth modal box - used for both login and register */
@@ -65,9 +65,10 @@
             padding: 40px;
             width: 90%;
             max-width: 420px;
-            z-index: 1; /* Relative to parent (map-overlay) */
+            z-index: 1004; /* Above everything including task tracker */
             position: relative;
             transition: all 0.3s ease;
+            pointer-events: auto; /* Enable clicks on the modal */
         }
 
             /* Style for the auth forms */
@@ -185,17 +186,9 @@
             display: none;
         }
 
-        /* Task tracker should be above the blur overlay */
+        /* Task tracker should be above the overlay but below auth modal */
         #expo-task-tracker {
-            z-index: 1003; /* Above map-overlay (z-index: 1002) so it's not blurred and is clickable */
-            pointer-events: none; /* Allow clicks to pass through to auth modal */
-        }
-
-        /* Enable pointer events only on interactive parts of tracker */
-        #expo-task-tracker .expo-toggle-btn,
-        #expo-task-tracker .expo-tracker-header,
-        #expo-task-tracker .expo-task-list {
-            pointer-events: auto;
+            z-index: 1003; /* Above map-overlay (z-index: 2), below auth modal (z-index: 1004) */
         }
     </style>
 </head>
