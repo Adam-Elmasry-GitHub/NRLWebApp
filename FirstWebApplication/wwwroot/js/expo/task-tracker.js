@@ -89,17 +89,26 @@ class ExpoTaskTracker {
      */
     completeTask(taskId) {
         const task = this.tasks.find(t => t.id === taskId);
-        if (task && !task.completed) {
-            task.completed = true;
-            this.saveProgress();
-            this.updateUI();
-            this.checkCompletion();
+        if (!task || task.completed) return;
 
-            // Dispatch custom event
-            window.dispatchEvent(new CustomEvent('expoTaskCompleted', {
-                detail: { taskId, task }
-            }));
+        // Enforce sequential completion: check if all previous tasks are completed
+        const taskIndex = this.tasks.findIndex(t => t.id === taskId);
+        for (let i = 0; i < taskIndex; i++) {
+            if (!this.tasks[i].completed) {
+                console.log(`Cannot complete task "${taskId}" - previous task "${this.tasks[i].id}" must be completed first`);
+                return; // Don't complete this task if previous tasks aren't done
+            }
         }
+
+        task.completed = true;
+        this.saveProgress();
+        this.updateUI();
+        this.checkCompletion();
+
+        // Dispatch custom event
+        window.dispatchEvent(new CustomEvent('expoTaskCompleted', {
+            detail: { taskId, task }
+        }));
     }
 
     /**

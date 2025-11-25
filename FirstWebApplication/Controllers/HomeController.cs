@@ -19,16 +19,18 @@ namespace FirstWebApplication.Controllers
         }
 
         // Viser forsiden med innloggings-/registreringsskjema
-        // Logger ut eksisterende brukere for clean slate ved hver demo
+        // Redirecter innloggede brukere til riktig side
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            // For Expo demo: Logg ut automatisk for å starte fresh hver gang
+            // Redirect authenticated Pilot users to RegisterType instead of logging out
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                await _signInManager.SignOutAsync();
-                // Redirect tilbake til Index for å vise login-skjema
-                return RedirectToAction("Index");
+                if (User.IsInRole("Pilot"))
+                {
+                    return RedirectToAction("RegisterType", "Pilot");
+                }
+                // Other roles can implement their own logic here if needed
             }
 
             // Vis registreringsform hvis registrering feilet

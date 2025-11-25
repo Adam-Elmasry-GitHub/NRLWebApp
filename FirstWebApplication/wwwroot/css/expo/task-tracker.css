@@ -6,12 +6,12 @@
 /* Task Tracker Container */
 #expo-task-tracker {
     position: fixed;
-    right: 0;
+    left: 0;
     top: 0;
     height: 100vh;
     width: 380px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -20,7 +20,7 @@
 }
 
 #expo-task-tracker.collapsed {
-    transform: translateX(calc(100% - 50px));
+    transform: translateX(calc(-100% + 50px));
 }
 
 /* Header */
@@ -49,35 +49,36 @@
 /* Toggle Button */
 .expo-toggle-btn {
     position: absolute;
-    left: -45px;
+    right: -45px;
     top: 50%;
     transform: translateY(-50%);
     width: 45px;
     height: 80px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
-    border-radius: 8px 0 0 8px;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 1.5rem;
-    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
 }
 
 .expo-toggle-btn:hover {
     background: linear-gradient(135deg, #5568d3 0%, #6b3f91 100%);
-    left: -48px;
+    right: -48px;
 }
 
 .expo-toggle-btn svg {
     transition: transform 0.3s ease;
+    transform: rotate(180deg);
 }
 
 #expo-task-tracker.collapsed .expo-toggle-btn svg {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
 }
 
 /* Progress Bar */
@@ -312,11 +313,11 @@
     }
 
     #expo-task-tracker.collapsed {
-        transform: translateX(calc(100% - 40px));
+        transform: translateX(calc(-100% + 40px));
     }
 
     .expo-toggle-btn {
-        left: -40px;
+        right: -40px;
         width: 40px;
         height: 60px;
     }
