@@ -38,22 +38,28 @@ namespace FirstWebApplication.Controllers
 
                 if (TempData["RegisterErrors"] != null)
                 {
-                    var errors = TempData["RegisterErrors"].ToString().Split('|');
-                    foreach (var error in errors)
+                    var errors = TempData["RegisterErrors"]?.ToString()?.Split('|');
+                    if (errors != null)
                     {
-                        if (!string.IsNullOrEmpty(error))
-                            ModelState.AddModelError(string.Empty, error);
+                        foreach (var error in errors)
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                                ModelState.AddModelError(string.Empty, error);
+                        }
                     }
                 }
             }
             // Vis innloggingsfeil hvis innlogging feilet
             else if (TempData["LoginErrors"] != null)
             {
-                var errors = TempData["LoginErrors"].ToString().Split('|');
-                foreach (var error in errors)
+                var errors = TempData["LoginErrors"]?.ToString()?.Split('|');
+                if (errors != null)
                 {
-                    if (!string.IsNullOrEmpty(error))
-                        ModelState.AddModelError(string.Empty, error);
+                    foreach (var error in errors)
+                    {
+                        if (!string.IsNullOrEmpty(error))
+                            ModelState.AddModelError(string.Empty, error);
+                    }
                 }
             }
 
