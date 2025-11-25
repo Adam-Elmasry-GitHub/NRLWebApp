@@ -198,12 +198,6 @@
         var trackerTitle = User.IsInRole("Registerfører") ? "📋 Expo Test - Registerfører" : "🎯 Expo Test - Pilot";
     }
     <div id="expo-task-tracker" data-role="@userRole">
-            <button class="expo-toggle-btn" id="expo-layout-toggle-btn" title="Toggle task tracker">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-
             <div class="expo-tracker-header">
                 <div class="expo-tracker-title">
                     <span>@trackerTitle</span>
@@ -269,16 +263,6 @@
                     localStorage.removeItem('expoTaskProgress_registerforer');
                 });
             });
-
-            // Expo tracker toggle button
-            var expoToggleBtn = document.getElementById('expo-layout-toggle-btn');
-            if (expoToggleBtn && window.expoTracker) {
-                expoToggleBtn.addEventListener('click', function() {
-                    if (window.expoTracker && typeof window.expoTracker.toggleTracker === 'function') {
-                        window.expoTracker.toggleTracker();
-                    }
-                });
-            }
         });
     </script>
 
