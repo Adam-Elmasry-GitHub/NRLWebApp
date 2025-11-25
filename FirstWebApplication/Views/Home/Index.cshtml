@@ -188,18 +188,14 @@
         /* Task tracker should be above the blur overlay */
         #expo-task-tracker {
             z-index: 1003; /* Above map-overlay (z-index: 1002) so it's not blurred and is clickable */
+            pointer-events: none; /* Allow clicks to pass through to auth modal */
         }
 
-        /* Allow clicks to pass through task tracker to auth modal in center */
-        @@media (min-width: 769px) {
-            #expo-task-tracker {
-                pointer-events: none; /* Disable pointer events on container */
-            }
-
-            /* But enable pointer events on the actual tracker content */
-            #expo-task-tracker > * {
-                pointer-events: auto;
-            }
+        /* Enable pointer events only on interactive parts of tracker */
+        #expo-task-tracker .expo-toggle-btn,
+        #expo-task-tracker .expo-tracker-header,
+        #expo-task-tracker .expo-task-list {
+            pointer-events: auto;
         }
     </style>
 </head>
