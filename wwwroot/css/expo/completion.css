@@ -1,0 +1,174 @@
+/* Expo Demo Completion Screen Styles */
+
+.completion-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.completion-card {
+    background: white;
+    border-radius: 24px;
+    padding: 50px 40px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: card-appear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes card-appear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Success Icon */
+.completion-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+    animation: icon-bounce 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes icon-bounce {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Title */
+.completion-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 15px 0;
+}
+
+/* Summary */
+.completion-summary {
+    font-size: 18px;
+    color: #6b7280;
+    margin: 0 0 40px 0;
+}
+
+/* QR Code Section */
+.qr-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 16px;
+}
+
+.qr-code-container {
+    display: inline-block;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.qr-code-image {
+    width: 300px;
+    height: 300px;
+    display: block;
+}
+
+.qr-text {
+    font-size: 16px;
+    color: #4b5563;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+/* Buttons */
+.completion-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.completion-btn {
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.completion-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.completion-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.completion-btn-secondary {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 2px solid #e5e7eb;
+}
+
+.completion-btn-secondary:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+}
+
+.completion-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .completion-card {
+        padding: 40px 25px;
+    }
+
+    .completion-title {
+        font-size: 26px;
+    }
+
+    .completion-summary {
+        font-size: 16px;
+    }
+
+    .qr-code-image {
+        width: 240px;
+        height: 240px;
+    }
+
+    .completion-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .completion-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

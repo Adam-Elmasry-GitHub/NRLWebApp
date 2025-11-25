@@ -36,14 +36,22 @@ namespace FirstWebApplication.Controllers
 
                 if (result.Succeeded)
                 {
-                    // Automatisk tildel "Pilot" rolle til alle nye brukere
-                    await _userManager.AddToRoleAsync(user, "Pilot");
+                    // Assign role - default to "Pilot" if not specified
+                    string role = string.IsNullOrEmpty(model.Role) ? "Pilot" : model.Role;
+                    await _userManager.AddToRoleAsync(user, role);
 
                     // Logg inn brukeren
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    // Redirect til RegisterType med parameter for task tracker
-                    return RedirectToAction("RegisterType", "Pilot", new { newUser = "true" });
+                    // Redirect based on role with newUser parameter for task tracker
+                    if (role == "Registerfører")
+                    {
+                        return RedirectToAction("RegisterforerDashboard", "Registerforer", new { newUser = "true" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("RegisterType", "Pilot", new { newUser = "true" });
+                    }
                 }
 
                 foreach (var error in result.Errors)

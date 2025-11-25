@@ -544,6 +544,21 @@ namespace FirstWebApplication.Controllers
             };
         }
 
+        // Viser Expo demo-side for Registerfører med login/register modal
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ExpoDemo(string role)
+        {
+            return View();
+        }
+
+        // Viser fullføringsside for Expo-test med QR-kode
+        [HttpGet]
+        public IActionResult ExpoCompletion()
+        {
+            return View();
+        }
+
         // Hjelpeklasse
 
         private class RegisterforerStatistics

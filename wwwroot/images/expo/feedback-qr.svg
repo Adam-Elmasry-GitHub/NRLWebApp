@@ -1,0 +1,53 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="300" fill="#ffffff"/>
+
+  <!-- Border -->
+  <rect x="10" y="10" width="280" height="280" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+
+  <!-- QR-like pattern -->
+  <g fill="#1f2937">
+    <!-- Top-left corner -->
+    <rect x="30" y="30" width="60" height="60"/>
+    <rect x="40" y="40" width="40" height="40" fill="#ffffff"/>
+    <rect x="50" y="50" width="20" height="20"/>
+
+    <!-- Top-right corner -->
+    <rect x="210" y="30" width="60" height="60"/>
+    <rect x="220" y="40" width="40" height="40" fill="#ffffff"/>
+    <rect x="230" y="50" width="20" height="20"/>
+
+    <!-- Bottom-left corner -->
+    <rect x="30" y="210" width="60" height="60"/>
+    <rect x="40" y="220" width="40" height="40" fill="#ffffff"/>
+    <rect x="50" y="230" width="20" height="20"/>
+
+    <!-- Random pattern blocks -->
+    <rect x="110" y="40" width="15" height="15"/>
+    <rect x="135" y="40" width="15" height="15"/>
+    <rect x="160" y="40" width="15" height="15"/>
+
+    <rect x="110" y="65" width="15" height="15"/>
+    <rect x="160" y="65" width="15" height="15"/>
+    <rect x="185" y="65" width="15" height="15"/>
+
+    <rect x="40" y="110" width="15" height="15"/>
+    <rect x="65" y="110" width="15" height="15"/>
+    <rect x="110" y="110" width="15" height="15"/>
+    <rect x="160" y="110" width="15" height="15"/>
+
+    <rect x="110" y="135" width="15" height="15"/>
+    <rect x="135" y="135" width="15" height="15"/>
+    <rect x="185" y="135" width="15" height="15"/>
+    <rect x="235" y="135" width="15" height="15"/>
+
+    <rect x="110" y="160" width="15" height="15"/>
+    <rect x="160" y="160" width="15" height="15"/>
+    <rect x="210" y="160" width="15" height="15"/>
+    <rect x="260" y="160" width="15" height="15"/>
+  </g>
+
+  <!-- Placeholder text -->
+  <text x="150" y="190" font-family="Arial, sans-serif" font-size="14" fill="#6b7280" text-anchor="middle">QR Code</text>
+  <text x="150" y="210" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af" text-anchor="middle">Placeholder</text>
+</svg>

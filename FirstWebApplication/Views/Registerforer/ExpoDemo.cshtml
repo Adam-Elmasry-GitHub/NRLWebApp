@@ -1,0 +1,345 @@
+@{
+    ViewData["Title"] = "Registerfører Demo";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aviation Obstacle Registration</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Expo Task Tracker CSS -->
+    <link rel="stylesheet" href="~/css/expo/task-tracker.css" asp-append-version="true" />
+
+    <style @Html.Raw(Html.NonceAttribute())>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #landing-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .auth-modal {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            z-index: 1004;
+            position: relative;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .auth-modal h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .auth-modal p {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .auth-modal input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .auth-modal input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .auth-modal button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .auth-modal button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .auth-modal button:active {
+            transform: translateY(0);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .remember-me input {
+            width: auto;
+            margin-right: 8px;
+            margin-bottom: 0;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .toggle-link a {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: #fee;
+            color: #c00;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .branding {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .branding .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #expo-task-tracker {
+            z-index: 1003;
+        }
+    </style>
+</head>
+<body>
+    <!-- Full-screen map background -->
+    <div id="landing-map"></div>
+
+    <!-- Dark overlay with auth modal -->
+    <div class="map-overlay">
+        <div class="auth-modal">
+            <!-- Branding -->
+            <div class="branding">
+                <div class="icon">📋</div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="login-form" class="auth-form">
+                <h1>Welcome Registerfører</h1>
+                <p>Sign in to manage and approve aviation obstacles</p>
+
+                @if (ViewData.ModelState.ErrorCount > 0 && ViewBag.ShowRegister != true)
+                {
+                    <div class="error-message">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <div>@error.ErrorMessage</div>
+                        }
+                    </div>
+                }
+
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <input type="email" name="Email" placeholder="Email address" required autocomplete="email" />
+                    <input type="password" name="Password" placeholder="Password" required autocomplete="current-password" />
+
+                    <label class="remember-me">
+                        <input type="checkbox" name="RememberMe" />
+                        <span>Remember me</span>
+                    </label>
+
+                    <button type="submit">Sign In</button>
+                </form>
+
+                <div class="toggle-link">
+                    Don't have an account?
+                    <a href="#" id="show-register-link">Create one here</a>
+                </div>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="register-form" class="auth-form hidden">
+                <h1>Create Registerfører Account</h1>
+                <p>Register to start managing aviation obstacles</p>
+
+                @if (ViewData.ModelState.ErrorCount > 0 && ViewBag.ShowRegister == true)
+                {
+                    <div class="error-message">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <div>@error.ErrorMessage</div>
+                        }
+                    </div>
+                }
+
+                <form asp-controller="Account" asp-action="Register" method="post">
+                    <input type="hidden" name="Role" value="Registerfører" />
+                    <input type="email" name="Email" placeholder="Email address" required autocomplete="email" />
+                    <input type="password" name="Password" placeholder="Password (min 6 characters)" required autocomplete="new-password" />
+                    <input type="password" name="ConfirmPassword" placeholder="Confirm Password" required autocomplete="new-password" />
+
+                    <button type="submit">Create Account</button>
+                </form>
+
+                <div class="toggle-link">
+                    Already have an account?
+                    <a href="#" id="show-login-link">Sign in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expo Task Tracker Sidebar -->
+    <div id="expo-task-tracker" data-role="registerforer">
+        <button id="tracker-toggle-btn" title="Toggle task tracker">
+            <span id="tracker-toggle-icon">←</span>
+        </button>
+
+        <div class="tracker-header">
+            <h2 class="tracker-title">📋 Expo Test - Registerfører</h2>
+            <p class="tracker-subtitle">Fullfør alle oppgavene nedenfor</p>
+
+            <div class="tracker-progress">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <div class="progress-text">0% fullført</div>
+            </div>
+        </div>
+
+        <div class="tracker-tasks" id="tracker-task-list">
+            <!-- Tasks will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="~/lib/leaflet/leaflet.js"></script>
+
+    <!-- Expo Task Tracker JS - Load task definitions first -->
+    <script src="~/js/expo/registerforer-tracker.js" asp-append-version="true"></script>
+    <script src="~/js/expo/task-tracker.js" asp-append-version="true"></script>
+
+    <script @Html.Raw(Html.NonceAttribute())>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize map
+            var map = L.map('landing-map', {
+                center: [60.4720, 8.4689],
+                zoom: 5,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                keyboard: false
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Show register form if needed
+            @if (ViewBag.ShowRegister == true)
+            {
+                <text>
+                toggleForms();
+                </text>
+            }
+
+            // Toggle form links
+            var showRegisterLink = document.getElementById('show-register-link');
+            var showLoginLink = document.getElementById('show-login-link');
+
+            if (showRegisterLink) {
+                showRegisterLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleForms();
+                });
+            }
+
+            if (showLoginLink) {
+                showLoginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleForms();
+                });
+            }
+        });
+
+        function toggleForms() {
+            var loginForm = document.getElementById('login-form');
+            var registerForm = document.getElementById('register-form');
+            loginForm.classList.toggle('hidden');
+            registerForm.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

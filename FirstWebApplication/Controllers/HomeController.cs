@@ -23,14 +23,18 @@ namespace FirstWebApplication.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            // Redirect authenticated Pilot users to RegisterType instead of logging out
+            // Redirect authenticated users to their role-specific dashboard
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 if (User.IsInRole("Pilot"))
                 {
                     return RedirectToAction("RegisterType", "Pilot");
                 }
-                // Other roles can implement their own logic here if needed
+
+                if (User.IsInRole("Registerfører"))
+                {
+                    return RedirectToAction("RegisterforerDashboard", "Registerforer");
+                }
             }
 
             // Vis registreringsform hvis registrering feilet

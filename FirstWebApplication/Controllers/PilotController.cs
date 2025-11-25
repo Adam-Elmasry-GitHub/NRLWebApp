@@ -296,6 +296,14 @@ namespace FirstWebApplication.Controllers
             return View();
         }
 
+        // Viser Expo demo-side for Pilot med login/register modal
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ExpoDemo(string role)
+        {
+            return View();
+        }
+
         // Viser fullføringsside for Expo-test med QR-kode
         [HttpGet]
         public IActionResult ExpoCompletion()

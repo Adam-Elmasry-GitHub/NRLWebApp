@@ -20,14 +20,14 @@
     <div class="completion-container">
         <div class="completion-card">
             <!-- Success Icon -->
-            <div class="completion-icon">🎉</div>
+            <div class="completion-icon">✨</div>
 
             <!-- Title -->
             <h1 class="completion-title">Gratulerer!</h1>
 
             <!-- Summary -->
             <p class="completion-summary">
-                Du har fullført alle 6 oppgavene i Pilot-testen!
+                Du har fullført alle 6 oppgavene i Registerfører-testen!
             </p>
 
             <!-- QR Code Section -->
@@ -40,7 +40,7 @@
 
             <!-- Buttons -->
             <div class="completion-buttons">
-                <a href="@Url.Action("RegisterType", "Pilot")" class="completion-btn completion-btn-primary">
+                <a href="@Url.Action("RegisterforerDashboard", "Registerforer")" class="completion-btn completion-btn-primary">
                     Tilbake til Dashboard
                 </a>
                 <button id="reset-btn" class="completion-btn completion-btn-secondary">
@@ -57,7 +57,7 @@
             if (resetBtn) {
                 resetBtn.addEventListener('click', function () {
                     // Clear task progress
-                    localStorage.removeItem('expoTaskProgress_pilot');
+                    localStorage.removeItem('expoTaskProgress_registerforer');
 
                     // Redirect to role selection page
                     window.location.href = '@Url.Action("Index", "Home")';

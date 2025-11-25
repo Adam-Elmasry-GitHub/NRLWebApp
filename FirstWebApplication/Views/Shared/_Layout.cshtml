@@ -117,7 +117,7 @@
                         </span>
 
                         <!-- Logout Button -->
-                        <form asp-controller="Account" asp-action="Logout" method="post" class="inline flex-shrink-0" onsubmit="localStorage.removeItem('expoTaskProgress');">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="inline flex-shrink-0 logout-form">
                             <button type="submit" class="px-3 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-lg flex items-center gap-1 transition text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
@@ -201,7 +201,7 @@
                         }
 
                         <!-- Logout -->
-                        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2 px-4" onsubmit="localStorage.removeItem('expoTaskProgress');">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2 px-4 logout-form">
                             <button type="submit" class="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold">
                                 Logout
                             </button>
@@ -222,7 +222,7 @@
 
     <!-- Expo Task Tracker Sidebar - Always visible for Expo demo -->
     <div id="expo-task-tracker">
-            <button class="expo-toggle-btn" onclick="expoTracker?.toggleTracker()" title="Toggle task tracker">
+            <button class="expo-toggle-btn" id="expo-layout-toggle-btn" title="Toggle task tracker">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
@@ -272,6 +272,31 @@
 
     <!-- Expo Task Tracker JS -->
     <script src="~/js/expo/task-tracker.js" asp-append-version="true"></script>
+
+    <!-- Event listeners for CSP compliance -->
+    <script @Html.Raw(Html.NonceAttribute())>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout form handlers - clear expo task progress
+            var logoutForms = document.querySelectorAll('.logout-form');
+            logoutForms.forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    // Clear both pilot and registerforer progress
+                    localStorage.removeItem('expoTaskProgress_pilot');
+                    localStorage.removeItem('expoTaskProgress_registerforer');
+                });
+            });
+
+            // Expo tracker toggle button
+            var expoToggleBtn = document.getElementById('expo-layout-toggle-btn');
+            if (expoToggleBtn && window.expoTracker) {
+                expoToggleBtn.addEventListener('click', function() {
+                    if (window.expoTracker && typeof window.expoTracker.toggleTracker === 'function') {
+                        window.expoTracker.toggleTracker();
+                    }
+                });
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
