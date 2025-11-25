@@ -1,8 +1,28 @@
 /* Layout-specific styles for _Layout.cshtml */
 
-/* Ensure content doesn't collide with fixed navbar */
+/* Ensure content doesn't collide with fixed navbar and task tracker */
 .main-content {
     padding-top: 1rem;
+    margin-right: 400px; /* Make space for 380px task tracker + 20px margin */
+}
+
+/* On smaller screens, reduce margin based on tracker width */
+@media (max-width: 1400px) {
+    .main-content {
+        margin-right: 360px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        margin-right: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0; /* Tracker collapses on mobile */
+    }
 }
 
 /* Mobile menu styles */

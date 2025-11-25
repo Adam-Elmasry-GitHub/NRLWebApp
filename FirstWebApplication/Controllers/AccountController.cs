@@ -42,8 +42,8 @@ namespace FirstWebApplication.Controllers
                     // Logg inn brukeren
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    // Redirect til RegisterType (første side de ser)
-                    return RedirectToAction("RegisterType", "Pilot");
+                    // Redirect til RegisterType med parameter for task tracker
+                    return RedirectToAction("RegisterType", "Pilot", new { newUser = "true" });
                 }
 
                 foreach (var error in result.Errors)

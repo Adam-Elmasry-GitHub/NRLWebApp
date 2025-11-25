@@ -191,10 +191,17 @@ class ExpoTaskTracker {
 
         // Register Type page
         if (path.includes('/pilot/registertype')) {
-            this.completeTask('view-register-type');
-
             // Check URL parameters for success messages
             const urlParams = new URLSearchParams(window.location.search);
+
+            // New user just registered - mark register and login as complete
+            if (urlParams.get('newUser') === 'true') {
+                this.completeTask('register');
+                this.completeTask('login');
+            }
+
+            this.completeTask('view-register-type');
+
             if (urlParams.get('fullRegisterSuccess') === 'true') {
                 this.completeTask('create-full-register');
             }
