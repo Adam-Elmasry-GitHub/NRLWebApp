@@ -117,7 +117,7 @@
                                     @{
                                         var pendingCoords = obstacle.Location?.Replace("POINT(", "").Replace(")", "").Split(' ');
                                         var pendingDisplay = pendingCoords?.Length == 2
-                                            ? $"{double.Parse(pendingCoords[1]).ToString("F4")}, {double.Parse(pendingCoords[0]).ToString("F4")}"
+                                            ? $"{double.Parse(pendingCoords[1], CultureInfo.InvariantCulture).ToString("F4")}, {double.Parse(pendingCoords[0], CultureInfo.InvariantCulture).ToString("F4")}"
                                             : "N/A";
                                     }
                                     📍 @pendingDisplay
@@ -166,7 +166,7 @@
                                     @{
                                         var approvedCoords = obstacle.Location?.Replace("POINT(", "").Replace(")", "").Split(' ');
                                         var approvedDisplay = approvedCoords?.Length == 2
-                                            ? $"{double.Parse(approvedCoords[1]).ToString("F4")}, {double.Parse(approvedCoords[0]).ToString("F4")}"
+                                            ? $"{double.Parse(approvedCoords[1], CultureInfo.InvariantCulture).ToString("F4")}, {double.Parse(approvedCoords[0], CultureInfo.InvariantCulture).ToString("F4")}"
                                             : "N/A";
                                     }
                                     📍 @approvedDisplay
@@ -210,7 +210,7 @@
                                     @{
                                         var rejectedCoords = obstacle.Location?.Replace("POINT(", "").Replace(")", "").Split(' ');
                                         var rejectedDisplay = rejectedCoords?.Length == 2
-                                            ? $"{double.Parse(rejectedCoords[1]).ToString("F4")}, {double.Parse(rejectedCoords[0]).ToString("F4")}"
+                                            ? $"{double.Parse(rejectedCoords[1], CultureInfo.InvariantCulture).ToString("F4")}, {double.Parse(rejectedCoords[0], CultureInfo.InvariantCulture).ToString("F4")}"
                                             : "N/A";
                                     }
                                     📍 @rejectedDisplay
