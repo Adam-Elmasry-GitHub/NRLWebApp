@@ -1,0 +1,109 @@
+@{
+    ViewData["Title"] = "Takk for deltakelsen!";
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/css/expo/completion.css" asp-append-version="true" />
+}
+
+<div class="completion-container">
+    <div class="completion-card">
+        <!-- Success Icon -->
+        <div class="success-icon-wrapper">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Thank You Message -->
+        <h1 class="completion-title">
+            🎉 Gratulerer!
+        </h1>
+        <p class="completion-subtitle">
+            Du har fullført Expo-testen!
+        </p>
+
+        <!-- Summary -->
+        <div class="completion-summary">
+            <p class="summary-text">
+                Takk for at du tok deg tid til å teste vår Obstacle Registration System.
+                Din tilbakemelding er uvurderlig for å gjøre systemet bedre.
+            </p>
+        </div>
+
+        <!-- Completed Tasks Summary -->
+        <div class="completed-tasks">
+            <h3 class="tasks-heading">✓ Fullførte oppgaver:</h3>
+            <ul class="tasks-list">
+                <li>Opprettet brukerkonto</li>
+                <li>Logget inn</li>
+                <li>Navigert RegisterType</li>
+                <li>Opprettet Quick Register</li>
+                <li>Fullført Quick Register</li>
+                <li>Opprettet Full Register</li>
+                <li>Sjekket Full Register</li>
+            </ul>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <h3 class="qr-heading">
+                📱 Gi oss din tilbakemelding
+            </h3>
+            <p class="qr-description">
+                Skann QR-koden med mobilen din for å svare på noen korte spørsmål om din opplevelse.
+            </p>
+
+            <div class="qr-code-container">
+                <!-- Placeholder QR Code -->
+                <div id="qr-code-placeholder">
+                    <div class="qr-grid">
+                        <!-- Simple QR code pattern placeholder -->
+                        <div class="qr-pattern"></div>
+                    </div>
+                    <p class="qr-placeholder-text">
+                        QR-kode vil bli lagt til her
+                    </p>
+                </div>
+
+                <!-- You can replace this with actual QR code generation -->
+                <!-- Using a library like qrcodejs or an API -->
+            </div>
+
+            <p class="qr-url-text">
+                Eller gå direkte til:
+                <a href="#" class="feedback-link" id="feedback-url">
+                    [Google Forms URL kommer her]
+                </a>
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a asp-controller="Pilot" asp-action="Dashboard" class="btn btn-primary">
+                Gå til Dashboard
+            </a>
+            <button onclick="resetExpoTest()" class="btn btn-secondary">
+                Start testen på nytt
+            </button>
+        </div>
+
+        <!-- Thank You Note -->
+        <div class="thank-you-note">
+            <p>
+                <strong>Takk for din interesse i vårt prosjekt!</strong>
+            </p>
+            <p class="text-sm">
+                For spørsmål eller mer informasjon, kontakt oss på:
+                <a href="mailto:contact@example.com" class="contact-link">contact@example.com</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/expo/completion.js" asp-append-version="true"></script>
+}

@@ -21,9 +21,12 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous" />
 
+    <!-- Expo Task Tracker CSS -->
+    <link rel="stylesheet" href="~/css/expo/task-tracker.css" asp-append-version="true" />
+
     @await RenderSectionAsync("Head", required: false)
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50" @(User.Identity?.IsAuthenticated == true ? "data-user-authenticated=\"true\"" : "")>
     <header>
         <nav class="bg-gray-200 shadow shadow-gray-300 w-100 px-4 lg:px-8">
             <div class="h-16 mx-auto container flex items-center justify-between">
@@ -212,6 +215,39 @@
         </nav>
     </header>
 
+    <!-- Expo Task Tracker Sidebar -->
+    @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Pilot"))
+    {
+        <div id="expo-task-tracker">
+            <button class="expo-toggle-btn" onclick="expoTracker?.toggleTracker()" title="Toggle task tracker">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="expo-tracker-header">
+                <div class="expo-tracker-title">
+                    <span>🎯 Expo Test</span>
+                </div>
+                <div class="expo-tracker-subtitle">
+                    Fullfør alle oppgavene nedenfor
+                </div>
+
+                <div class="expo-progress-container">
+                    <div class="expo-progress-bar-bg">
+                        <div id="expo-progress-bar" class="expo-progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                    <div id="expo-progress-text" class="expo-progress-text">0% fullført</div>
+                </div>
+            </div>
+
+            <div id="expo-task-list" class="expo-task-list">
+                <!-- Tasks will be populated by JavaScript -->
+                <div class="expo-tracker-loading">Loading tasks...</div>
+            </div>
+        </div>
+    }
+
     <main role="main" class="min-h-screen main-content">
         @RenderBody()
     </main>
@@ -231,6 +267,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin="anonymous"></script>
+
+    <!-- Expo Task Tracker JS -->
+    <script src="~/js/expo/task-tracker.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

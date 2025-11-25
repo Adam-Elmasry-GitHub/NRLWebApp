@@ -210,6 +210,11 @@ function showSuccess() {
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('success-state').classList.remove('hidden');
 
+    // Mark task as completed in Expo tracker
+    if (window.expoTracker) {
+        window.expoTracker.completeTask('create-quick-register');
+    }
+
     let seconds = 3;
     const countdownElement = document.getElementById('countdown');
     const registerTypeUrl = document.getElementById('quick-register-map').getAttribute('data-register-type-url');

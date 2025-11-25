@@ -117,7 +117,8 @@ namespace FirstWebApplication.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Obstacle registered successfully!";
-            return RedirectToAction("Overview", new { id = obstacle.Id });
+            TempData["FullRegisterCreated"] = true;
+            return RedirectToAction("RegisterType", new { fullRegisterSuccess = "true" });
         }
 
         // Viser skjema for å fullføre en hurtigregistrering
@@ -190,7 +191,7 @@ namespace FirstWebApplication.Controllers
             await UpdateObstacleStatusAsync(obstacle, 2, userId, "Quick registration completed");
 
             TempData["SuccessMessage"] = "Registration completed successfully!";
-            return RedirectToAction("MyRegistrations");
+            return RedirectToAction("MyRegistrations", new { quickRegisterCompleted = "true" });
         }
 
         // Viser oversikt over brukerens registreringer
@@ -292,6 +293,13 @@ namespace FirstWebApplication.Controllers
             ViewBag.RejectedCount = statistics.Rejected;
             ViewBag.TotalCount = statistics.Total;
 
+            return View();
+        }
+
+        // Viser fullføringsside for Expo-test med QR-kode
+        [HttpGet]
+        public IActionResult ExpoCompletion()
+        {
             return View();
         }
 

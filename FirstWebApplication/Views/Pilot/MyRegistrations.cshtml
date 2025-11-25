@@ -62,7 +62,7 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach (var quickReg in Model.IncompleteQuickRegs)
                         {
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-gray-50" data-obstacle-id="@quickReg.Id" data-obstacle-incomplete="true">
                                 <td class="px-6 py-4 text-sm font-medium text-gray-900">#@quickReg.Id</td>
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     @{
@@ -108,7 +108,7 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach (var obstacle in Model.PendingObstacles)
                         {
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-gray-50" data-obstacle-id="@obstacle.Id" data-obstacle-status="pending">
                                 <td class="px-6 py-4 text-sm font-medium text-gray-900">#@obstacle.Id</td>
                                 <td class="px-6 py-4 text-sm text-gray-600">@(obstacle.Type ?? "N/A")</td>
                                 <td class="px-6 py-4 text-sm text-gray-900">@obstacle.Name</td>
