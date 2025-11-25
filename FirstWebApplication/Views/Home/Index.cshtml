@@ -189,7 +189,6 @@
         /* Task tracker should be above the overlay but below auth modal */
         #expo-task-tracker {
             z-index: 1003; /* Above map-overlay (z-index: 2), below auth modal (z-index: 1004) */
-            display: none; /* TEMPORARY: Hide to test if it's blocking clicks */
         }
     </style>
 </head>
@@ -250,7 +249,7 @@
                 <!-- Link to toggle to registration -->
                 <div class="toggle-link">
                     Don't have an account?
-                    <a onclick="toggleForms()">Create one here</a>
+                    <a href="#" id="show-register-link">Create one here</a>
                 </div>
             </div>
 
@@ -300,7 +299,7 @@
                 <!-- Link to toggle back to login -->
                 <div class="toggle-link">
                     Already have an account?
-                    <a onclick="toggleForms()">Sign in here</a>
+                    <a href="#" id="show-login-link">Sign in here</a>
                 </div>
             </div>
         </div>
@@ -308,7 +307,7 @@
 
     <!-- Expo Task Tracker Sidebar -->
     <div id="expo-task-tracker">
-        <button class="expo-toggle-btn" onclick="expoTracker?.toggleTracker()" title="Toggle task tracker">
+        <button class="expo-toggle-btn" id="expo-tracker-toggle-btn" title="Toggle task tracker">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -371,6 +370,34 @@
                     <text>
                     toggleForms();
                     </text>
+            }
+
+            // Add event listeners for toggle links
+            var showRegisterLink = document.getElementById('show-register-link');
+            var showLoginLink = document.getElementById('show-login-link');
+            var trackerToggleBtn = document.getElementById('expo-tracker-toggle-btn');
+
+            if (showRegisterLink) {
+                showRegisterLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleForms();
+                });
+            }
+
+            if (showLoginLink) {
+                showLoginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleForms();
+                });
+            }
+
+            if (trackerToggleBtn) {
+                trackerToggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.expoTracker) {
+                        window.expoTracker.toggleTracker();
+                    }
+                });
             }
         });
 
