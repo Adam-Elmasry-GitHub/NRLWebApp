@@ -185,6 +185,8 @@ class ExpoTaskTracker {
         // Check for URL parameters that indicate task completion
         if (params.get('newUser') === 'true') {
             this.completeTask('register');
+            // User is automatically logged in after registration
+            this.completeTask('login');
         }
 
         if (params.get('quickRegisterCompleted') === 'true') {
