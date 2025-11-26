@@ -20,10 +20,11 @@ class ExpoTaskTracker {
         // Auto-detect current page and complete relevant tasks
         this.detectCurrentPage();
 
+        // Set initialized flag before checking completion
+        this.initialized = true;
+
         // Check if all tasks are complete
         this.checkCompletion();
-
-        this.initialized = true;
     }
 
     loadTaskDefinitions(role) {
