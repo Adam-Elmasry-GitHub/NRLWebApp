@@ -86,7 +86,7 @@ class ExpoTaskTracker {
     }
 
     renderTasks() {
-        const container = document.getElementById('tracker-task-list');
+        const container = document.getElementById('expo-task-list');
         if (!container) return;
 
         container.innerHTML = '';
@@ -118,8 +118,8 @@ class ExpoTaskTracker {
         const totalCount = this.tasks.length;
         const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-        const progressBar = document.querySelector('.progress-bar-fill');
-        const progressText = document.querySelector('.progress-text');
+        const progressBar = document.querySelector('.expo-progress-bar-fill');
+        const progressText = document.querySelector('.expo-progress-text');
 
         if (progressBar) {
             progressBar.style.width = `${percentage}%`;
