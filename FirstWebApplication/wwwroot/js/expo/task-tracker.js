@@ -257,10 +257,16 @@ class ExpoTaskTracker {
     detectOverviewPage() {
         if (this.role === 'pilot') {
             // When viewing obstacle overview, complete the final task
-            const obstacleDetails = document.querySelector('.obstacle-details, [data-obstacle-id]');
+            const obstacleDetails = document.querySelector('.details-card');
             if (obstacleDetails) {
-                // Complete final task (check-full-register)
-                this.completeTask('check-full-register');
+                // Check if this is a Full Register (has Type field)
+                const typeLabel = Array.from(document.querySelectorAll('.detail-label'))
+                    .find(el => el.textContent.trim() === 'Type:');
+
+                if (typeLabel) {
+                    // This is a Full Register - complete the final task
+                    this.completeTask('check-full-register');
+                }
             }
         }
     }
