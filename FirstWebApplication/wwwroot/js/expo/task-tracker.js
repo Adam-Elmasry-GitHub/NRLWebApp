@@ -13,6 +13,10 @@ class ExpoTaskTracker {
         // Load saved progress
         this.loadProgress();
 
+        // Mark as initialized before detecting pages/checking completion
+        // This ensures redirect logic works when last task is completed
+        this.initialized = true;
+
         // Initialize UI and event listeners
         this.initUI();
         this.initEventListeners();
@@ -22,8 +26,6 @@ class ExpoTaskTracker {
 
         // Check if all tasks are complete
         this.checkCompletion();
-
-        this.initialized = true;
     }
 
     loadTaskDefinitions(role) {
