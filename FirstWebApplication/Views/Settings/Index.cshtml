@@ -1,0 +1,102 @@
+@using FirstWebApplication.Helpers
+@model FirstWebApplication.Models.Settings.SettingsViewModel
+@* LINJEN UNDER ER VIKTIG: Den henter oversettelses-verktøyet *@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["SettingsTitle"];
+}
+
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+        @* Henter overskriften fra resx-filen *@
+        <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">@Localizer["SettingsTitle"]</h2>
+
+        <div class="mb-8 border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">@Localizer["LanguageSection"]</h3>
+            <form asp-action="SetLanguage" method="post" class="flex flex-col gap-4">
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+
+                <div class="w-full max-w-xs">
+                    <label asp-for="CurrentLanguage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">@Localizer["ChooseLanguage"]</label>
+                    <select asp-for="CurrentLanguage"
+                            asp-items="@(new SelectList(Model.AvailableLanguages, "Key", "Value"))"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white py-2 px-3">
+                    </select>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["LanguageNote"]</p>
+            </form>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">@Localizer["AppearanceSection"]</h3>
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["DarkModeLabel"]</label>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">@Localizer["DarkModeDesc"]</p>
+                </div>
+
+                <button id="settings-theme-toggle" type="button" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 bg-gray-200 dark:bg-indigo-600" role="switch" aria-checked="false">
+                    <span class="sr-only">@Localizer["DarkModeLabel"]</span>
+                    <span id="toggle-circle" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0 dark:translate-x-5"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script @Html.Raw(Html.NonceAttribute())>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Håndter dropdown change manuelt pga CSP
+            const languageSelect = document.querySelector('select[name="CurrentLanguage"]');
+            if (languageSelect) {
+                languageSelect.addEventListener('change', function() {
+                    this.form.submit();
+                });
+            }
+
+            // Dark mode logikk
+            const themeToggleBtn = document.getElementById('settings-theme-toggle');
+            const toggleCircle = document.getElementById('toggle-circle');
+
+            const isDark = document.documentElement.classList.contains('dark');
+            updateToggleVisuals(isDark);
+
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const html = document.documentElement;
+                    if (html.classList.contains('dark')) {
+                        html.classList.remove('dark');
+                        localStorage.theme = 'light';
+                        updateToggleVisuals(false);
+                    } else {
+                        html.classList.add('dark');
+                        localStorage.theme = 'dark';
+                        updateToggleVisuals(true);
+                    }
+                    window.dispatchEvent(new Event('storage'));
+                });
+            }
+
+            function updateToggleVisuals(isDark) {
+                if(!themeToggleBtn || !toggleCircle) return;
+
+                if (isDark) {
+                    themeToggleBtn.classList.remove('bg-gray-200');
+                    themeToggleBtn.classList.add('bg-indigo-600');
+                    toggleCircle.classList.remove('translate-x-0');
+                    toggleCircle.classList.add('translate-x-5');
+                    themeToggleBtn.setAttribute('aria-checked', 'true');
+                } else {
+                    themeToggleBtn.classList.add('bg-gray-200');
+                    themeToggleBtn.classList.remove('bg-indigo-600');
+                    toggleCircle.classList.add('translate-x-0');
+                    toggleCircle.classList.remove('translate-x-5');
+                    themeToggleBtn.setAttribute('aria-checked', 'false');
+                }
+            }
+        });
+    </script>
+}

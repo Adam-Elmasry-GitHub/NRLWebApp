@@ -1,3 +1,6 @@
+@using FirstWebApplication.Helpers
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
 
-    <!-- Tailwind CSS CDN (for development - use built CSS in production) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script @Html.Raw(Html.NonceAttribute())>
         tailwind.config = {
@@ -16,7 +18,6 @@
         }
     </script>
 
-    <!-- Leaflet CSS for maps -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous" />
@@ -27,27 +28,23 @@
     <header>
         <nav class="bg-gray-200 shadow shadow-gray-300 w-100 px-4 lg:px-8">
             <div class="h-16 mx-auto container flex items-center justify-between">
-                <!-- Logo - Left -->
                 <div class="text-indigo-500 flex items-center flex-shrink-0">
                     <a asp-controller="Home" asp-action="Index" class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                         </svg>
-                        <span class="font-bold text-lg hidden sm:inline">Obstacle Registration</span>
+                        <span class="font-bold text-lg hidden sm:inline">@Localizer["ObstacleRegistration"]</span>
                         <span class="font-bold text-lg sm:hidden">ORS</span>
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-button" class="mobile-menu-button items-center justify-center p-2 rounded-md text-gray-600 hover:text-indigo-500 hover:bg-gray-300 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
 
-                <!-- Desktop Navigation -->
                 <div class="desktop-nav items-center gap-4">
-                    <!-- Dark Mode Toggle -->
                     <button id="dark-mode-toggle" class="dark-mode-toggle text-gray-600" title="Toggle dark mode">
                         <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -59,60 +56,64 @@
 
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <!-- Navigation Links -->
                         <ul class="flex font-semibold text-gray-600 text-sm">
                             @if (User.IsInRole("Pilot"))
                             {
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Pilot" asp-action="RegisterType">Register</a>
+                                    <a asp-controller="Pilot" asp-action="RegisterType">@Localizer["Register"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Pilot" asp-action="MyRegistrations">My Registrations</a>
+                                    <a asp-controller="Pilot" asp-action="MyRegistrations">@Localizer["MyRegistrations"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Pilot" asp-action="Dashboard">Dashboard</a>
+                                    <a asp-controller="Pilot" asp-action="Dashboard">@Localizer["Dashboard"]</a>
                                 </li>
                             }
 
                             @if (User.IsInRole("Registerfører"))
                             {
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Registerforer" asp-action="RegisterforerDashboard">Dashboard</a>
+                                    <a asp-controller="Registerforer" asp-action="RegisterforerDashboard">@Localizer["Dashboard"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Registerforer" asp-action="MapView">Map View</a>
+                                    <a asp-controller="Registerforer" asp-action="MapView">@Localizer["MapView"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Registerforer" asp-action="AllObstacles">All Obstacles</a>
+                                    <a asp-controller="Registerforer" asp-action="AllObstacles">@Localizer["AllObstacles"]</a>
                                 </li>
                             }
 
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
+                                    <a asp-controller="Admin" asp-action="AdminDashboard">@Localizer["Dashboard"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Admin" asp-action="AdminUsers">Users</a>
+                                    <a asp-controller="Admin" asp-action="AdminUsers">@Localizer["Users"]</a>
                                 </li>
                                 <li class="px-3 py-2 hover:text-indigo-500 whitespace-nowrap">
-                                    <a asp-controller="Admin" asp-action="AdminStatistics">Statistics</a>
+                                    <a asp-controller="Admin" asp-action="AdminStatistics">@Localizer["Statistics"]</a>
                                 </li>
                             }
                         </ul>
 
-                        <!-- User Email - hidden on smaller desktops -->
-                        <span class="text-gray-600 text-xs font-medium hidden xl:inline truncate max-w-32">
+                        <span class="text-gray-600 text-xs font-medium hidden xl:inline truncate max-w-32 mr-2">
                             @User.Identity?.Name
                         </span>
 
-                        <!-- Logout Button -->
+                        <a asp-controller="Settings" asp-action="Index" class="px-2 py-2 text-gray-600 hover:text-indigo-500 mr-2" title="@Localizer["Settings"]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </a>
+
                         <form asp-controller="Account" asp-action="Logout" method="post" class="inline flex-shrink-0">
                             <button type="submit" class="px-3 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-lg flex items-center gap-1 transition text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
                                 </svg>
-                                <span>Logout</span>
+                                <span>@Localizer["Logout"]</span>
                             </button>
                         </form>
                     }
@@ -123,16 +124,14 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
-                                <span>Login</span>
+                                <span>@Localizer["Login"]</span>
                             </button>
                         </a>
                     }
                 </div>
             </div>
 
-            <!-- Mobile Menu -->
             <div class="mobile-menu pb-4" id="mobile-menu">
-                <!-- Dark Mode Toggle for Mobile -->
                 <div class="border-t border-gray-300 pt-4 px-4 mb-2">
                     <button id="mobile-dark-mode-toggle" class="flex items-center gap-2 text-gray-600 font-semibold">
                         <svg id="mobile-sun-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,7 +147,6 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="border-t border-gray-300 pt-4">
-                        <!-- User info -->
                         <div class="px-4 py-2 text-sm text-gray-600 font-medium border-b border-gray-300 mb-2">
                             @User.Identity?.Name
                         </div>
@@ -156,46 +154,49 @@
                         @if (User.IsInRole("Pilot"))
                         {
                             <a asp-controller="Pilot" asp-action="RegisterType" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Register Obstacle
+                                @Localizer["Register"]
                             </a>
                             <a asp-controller="Pilot" asp-action="MyRegistrations" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                My Registrations
+                                @Localizer["MyRegistrations"]
                             </a>
                             <a asp-controller="Pilot" asp-action="Dashboard" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Dashboard
+                                @Localizer["Dashboard"]
                             </a>
                         }
 
                         @if (User.IsInRole("Registerfører"))
                         {
                             <a asp-controller="Registerforer" asp-action="RegisterforerDashboard" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Dashboard
+                                @Localizer["Dashboard"]
                             </a>
                             <a asp-controller="Registerforer" asp-action="MapView" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Map View
+                                @Localizer["MapView"]
                             </a>
                             <a asp-controller="Registerforer" asp-action="AllObstacles" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                All Obstacles
+                                @Localizer["AllObstacles"]
                             </a>
                         }
 
                         @if (User.IsInRole("Admin"))
                         {
                             <a asp-controller="Admin" asp-action="AdminDashboard" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Dashboard
+                                @Localizer["Dashboard"]
                             </a>
                             <a asp-controller="Admin" asp-action="AdminUsers" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Users
+                                @Localizer["Users"]
                             </a>
                             <a asp-controller="Admin" asp-action="AdminStatistics" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
-                                Statistics
+                                @Localizer["Statistics"]
                             </a>
                         }
 
-                        <!-- Logout -->
+                        <a asp-controller="Settings" asp-action="Index" class="block px-4 py-3 text-gray-600 hover:bg-gray-300 hover:text-indigo-500 font-semibold">
+                            @Localizer["Settings"]
+                        </a>
+
                         <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2 px-4">
                             <button type="submit" class="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold">
-                                Logout
+                                @Localizer["Logout"]
                             </button>
                         </form>
                     </div>
@@ -204,7 +205,7 @@
                 {
                     <div class="border-t border-gray-300 pt-4 px-4">
                         <a asp-controller="Home" asp-action="Index" class="block w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold text-center">
-                            Login
+                            @Localizer["Login"]
                         </a>
                     </div>
                 }
@@ -227,7 +228,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/layout.js" asp-append-version="true"></script>
 
-    <!-- Leaflet JS for maps -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin="anonymous"></script>

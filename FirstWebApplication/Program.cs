@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(); // aktiverer view lokaliseringsstøtte
 
 // Configure database connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -54,6 +55,13 @@ var app = builder.Build();
 // Use CSP middleware (must be early in the pipeline)
 app.UseCspMiddleware();
 
+var supportedCultures = new[] { "nb-NO", "en-US" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("nb-NO")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 // Initialize database, roles, and seed users
 using (var scope = app.Services.CreateScope())
