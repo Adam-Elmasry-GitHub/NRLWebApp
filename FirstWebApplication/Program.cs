@@ -36,6 +36,8 @@ builder.Services.AddScoped<UserRoleService>();
 builder.Services.AddScoped<RoleInitializerService>();
 builder.Services.AddScoped<UserSeederService>();
 builder.Services.AddScoped<GeometryService>();
+// Export service for Excel generation
+builder.Services.AddScoped<ExportService>();
 
 // Configure cookie settings
 builder.Services.ConfigureApplicationCookie(options =>
@@ -68,9 +70,18 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
 
         // Step 2: Apply migrations (creates database if it doesn't exist)
-        logger.LogInformation("Applying database migrations...");
-        context.Database.Migrate();
-        logger.LogInformation("Database migrations applied successfully");
+        // Skip migrations for in-memory databases
+        if (context.Database.IsRelational())
+        {
+            logger.LogInformation("Applying database migrations...");
+            context.Database.Migrate();
+            logger.LogInformation("Database migrations applied successfully");
+        }
+        else
+        {
+            logger.LogInformation("Using non-relational database, skipping migrations...");
+            context.Database.EnsureCreated();
+        }
 
         // Step 3: Initialize roles (database exists now!)
         logger.LogInformation("Initializing roles...");

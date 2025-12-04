@@ -19,6 +19,7 @@ namespace NRLWebApp.Tests.Controllers
         private AdminController CreateController(string loggedInUserId, List<ApplicationUser> adminUsers, Mock<UserManager<ApplicationUser>> mockUserManager, Mock<UserRoleService> mockRoleService)
         {
             var dbContext = TestDbContext.Create();
+            var exportService = new ExportService();
 
             // Simuler at UserRoleService returnerer ønsket antall Admin-brukere
             mockRoleService
@@ -33,7 +34,7 @@ namespace NRLWebApp.Tests.Controllers
                 new Claim(ClaimTypes.Role, "Admin")
             }, "mock"));
 
-            var controller = new AdminController(mockUserManager.Object, mockRoleService.Object, dbContext)
+            var controller = new AdminController(mockUserManager.Object, mockRoleService.Object, dbContext, exportService)
             {
                 ControllerContext = new ControllerContext()
                 {
