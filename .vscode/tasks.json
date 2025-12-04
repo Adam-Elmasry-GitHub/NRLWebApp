@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "../../../Library/Application Support/Code/User/workspaceStorage/cfe4fc93b529c5b9955652b782187770/ms-dotnettools.csdevkit/NRLWebApp.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "../../../Library/Application Support/Code/User/workspaceStorage/cfe4fc93b529c5b9955652b782187770/ms-dotnettools.csdevkit/NRLWebApp.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "../../../Library/Application Support/Code/User/workspaceStorage/cfe4fc93b529c5b9955652b782187770/ms-dotnettools.csdevkit/NRLWebApp.sln"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
